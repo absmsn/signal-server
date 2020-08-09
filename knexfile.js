@@ -2,8 +2,8 @@ module.exports = {
   client: 'mysql',
   connection: {
     host: '127.0.0.1',
-    user: 'root',
-    password: '129126hz',
+    user: '', // username here
+    password: '', // your password here
     database: 'signal_data'
   },
   migrations: {
