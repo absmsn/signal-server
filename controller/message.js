@@ -52,6 +52,17 @@ async function handleRemoveOffline(msgID) {
   await removeOffline(msgID)
 }
 
+async function handleRecallOffline(socket, msg) {
+  let deleted = await removeOffline(msg.msgID)
+  // 是否成功删除
+  let result = deleted ? "successed" : "failed"
+  socket.emit("recallResult", {
+    sessionID: msg.sessionID,
+    msgID: msg.msgID,
+    result: result
+  })
+}
+
 async function handleRemoveOfflines(msg) {
   let sessionID = msg.sessionID
   if (msg.startTime && typeof msg.startTime === "string") {
@@ -68,5 +79,6 @@ module.exports = {
   handleMsgR,
   handleAckN,
   handleRemoveOffline,
-  handleRemoveOfflines
+  handleRemoveOfflines,
+  handleRecallOffline
 }

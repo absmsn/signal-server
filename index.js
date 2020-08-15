@@ -7,8 +7,9 @@ const {
   handleGetMsgID,
   handleMsgR,
   handleAckN,
-  handleRemoveOffline, 
-  handleRemoveOfflines
+  handleRemoveOffline,
+  handleRemoveOfflines,
+  handleRecallOffline
 } = require('./controller/message')
 
 const {
@@ -66,12 +67,16 @@ io.on("connect", (socket) => {
     await handleRejoin(socket, io, msg);
   })
 
-  socket.on("removeOffline", async (msgID)=>{
+  socket.on("removeOffline", async (msgID) => {
     await handleRemoveOffline(msgID);
   })
 
-  socket.on("removeOfflines", async (msg)=>{
+  socket.on("removeOfflines", async (msg) => {
     await handleRemoveOfflines(msg);
+  })
+
+  socket.on("recallOffline", async (msg) => {
+    await handleRecallOffline(socket, msg)
   })
 })
 

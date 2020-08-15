@@ -50,9 +50,10 @@ async function getOfflineBySessionID(sessionID) {
 }
 
 async function removeOffline(msgID) {
-  await db('offline').where({
+  let count = await db('offline').where({
     msgID: msgID
   }).delete()
+  return count > 0
 }
 
 async function removeOfflinesBySessionTimeRange(
