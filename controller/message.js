@@ -19,17 +19,19 @@ async function handleGetMsgID(socket, msg) {
 
 async function handleMsgR(socket, msg) {
   let status = await checkPeerOnline(msg.userID, msg.sessionID)
-  msg.sendTime = new Date()
+  let newTime = new Date()
+  msg.sendTime = newTime
   if (status) {
     socket.to(msg.sessionID).emit('msgn', msg)
     status = 'server_received'
   } else {
-    // TODO:在客户端删掉这些字段
-    // 删掉不需要的字段 
-    delete msg.localMsgID
-    delete msg.source
-    delete msg.msgStatus
+    // // TODO:在客户端删掉这些字段
+    // // 删掉不需要的字段 
+    // delete msg.localMsgID
+    // delete msg.source
+    // delete msg.msgStatus
 
+    msg.sendTime = newTime
     await addOffline(msg)
     status = 'cached'
   }
@@ -37,7 +39,7 @@ async function handleMsgR(socket, msg) {
     msgStatus: status,
     sessionID: msg.sessionID,
     msgID: msg.msgID,
-    sendTime: msg.sendTime
+    sendTime: newTime
   })
 }
 

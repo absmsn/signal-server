@@ -23,9 +23,6 @@ const {
   getOfflineBySessionID,
   popOfflineByUserSession
 } = require('../models/message')
-const {
-  join
-} = require('../lib/db')
 
 async function handleAddUser(socket) {
   let userID = v1()
@@ -101,7 +98,8 @@ async function handleJoinSession(socket, msg) {
   }
   msg.peerStatus = peerStatus
   msg.sessionStatus = status
-  socket.emit('joinSession', msg)
+  delete msg.userID
+  socket.emit('joinResult', msg)
 }
 
 async function handleQuitSession(socket, msg) {
