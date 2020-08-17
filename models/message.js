@@ -2,25 +2,24 @@ let db = require('../lib/db')
 
 async function getMsgID() {
   let value
-  db.transactionProvider({
-
-  })
   await db.transaction(async trx => {
     value = await db('counter')
+      .transacting(trx)
+      .forUpdate()
       .select('value')
       .where({
         counterName: 'msgCount'
       })
-      .transacting(trx)
     value = value[0].value + 1
     await db('counter')
+      .transacting(trx)
+      .forUpdate()
       .where({
         counterName: 'msgCount'
       })
       .update({
         value: value
       })
-      .transacting(trx)
   })
   return value
 }

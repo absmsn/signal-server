@@ -25,12 +25,6 @@ async function handleMsgR(socket, msg) {
     socket.to(msg.sessionID).emit('msgn', msg)
     status = 'server_received'
   } else {
-    // // TODO:在客户端删掉这些字段
-    // // 删掉不需要的字段 
-    // delete msg.localMsgID
-    // delete msg.source
-    // delete msg.msgStatus
-
     msg.sendTime = newTime
     await addOffline(msg)
     status = 'cached'
